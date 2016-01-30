@@ -1,0 +1,12 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "jongleberry"
+  ],
+  "env": {
+
+  },
+  "rules": {
+    "no-return-assign": 0
+  }
+}
