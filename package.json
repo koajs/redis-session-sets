@@ -12,10 +12,12 @@
     "ms": "^0.7.1"
   },
   "devDependencies": {
-    "babel-eslint": "^4.0.0",
+    "babel-eslint": "next",
     "codecov": "^1.0.0",
-    "eslint": "^1.0.0",
+    "eslint": "^2.1.0",
     "eslint-config-jongleberry": "^1.0.0",
+    "eslint-config-standard-jsx": "^1.1.1",
+    "eslint-plugin-promise": "^1.0.8",
     "eslint-plugin-react": "^3.0.0",
     "eslint-plugin-standard": "^1.0.0",
     "ghooks": "^1.0.0",
@@ -24,7 +26,7 @@
     "nyc": "^5.0.0"
   },
   "scripts": {
-    "lint": "eslint --cache --cache-location node_modules/.cache/eslint lib test",
+    "lint": "eslint lib test",
     "test": "mocha --bail",
     "test-cov": "nyc --cache node_modules/mocha/bin/_mocha && nyc report --reporter=lcov"
   },
