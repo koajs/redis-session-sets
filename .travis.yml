@@ -7,3 +7,4 @@ script:
   - npm run lint
   - npm run test-cov
   - ./node_modules/.bin/codecov
+services: redis
