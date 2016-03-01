@@ -16,6 +16,7 @@ Specifics:
 
 - Stores sessions as hash sets
 - Stores cross references as sets
+- Functional API
 
 ## Example
 
@@ -26,18 +27,25 @@ const client = require('ioredis').createClient()
 const Session = require('koa-redis-session-sets')(app, {
   client,
   references: {
-    user_id: 1
+    user_id: {} // options object for future use, maytbe
   }
 })
 
 app.use(Session)
 
 app.use(function * (next) {
-  const session = yield this.session.get()
+  // get the session
+  let session = yield this.session.get()
 
-  this.session.set({
+  // update the session
+  yield this.session.set({
     user_id: 1
   })
+
+  // update the session object with latest keys
+  session = yield this.session.get()
+
+  this.status = 204
 })
 ```
 
@@ -63,41 +71,89 @@ client.smembers(key).then(session_ids => {
 
 ### const SessionMiddleware = KoaRedisSessionSets(app, options)
 
+Creates a new session middleware instance.
+
+Options:
+
+- `client` - `ioredis` client
+- `references` - fields to reference
+- `maxAge` - max age of sessions, defaulting to `28 days`
+- `prefix` - optional key prefix
+- `byteLength` - optional byte length for CSRF tokens
+
 ### app.use(SessionMiddleware)
+
+Use the session middleware in your app.
+Note that this is a very simple function and middleware is not required.
+Look at the source code to understand how simple it is.
+
+### app.use(SessionMiddleware.v2)
+
+A Koa v2 version of the middleware.
 
 ### const Session = SessionMiddleware.createSession(context)
 
+Create your own session object from a context.
+
 ### const key = SessionMiddleware.getReferenceKey(field, value)
+
+Get the `key` for a redis `set` that contains all the session ids related to a `field:value` pair.
+Use `client.smembers(key)` to get all the session ids.
 
 ### const key = Session.getKey()
 
+Session is `ctx.session`.
+Get the key for the redis `hash` for use with `client.hgetall(key)`.
+
 ### Session.get([fields]).then(session => {})
+
+Get the session, optionally with select fields.
 
 ### Session.set(values, [maxAge]).then(values => {})
 
+Set specific fields in the session.
+Does not return the new session.
+
 ### Session.unset(fields, [maxAge]).then(() => {})
+
+Remove specific fields in the session.
+Does not return the new session.
 
 ### Session.touch([maxAge]).then(() => {})
 
+Update the session, updating the cookies and the session expire time.
+
 ### Session.delete().then(() => {})
+
+Deletes the session.
+Does not create a new one.
+Execute `const session = await ctx.session.get()` to create a new one
 
 ### Session.createCSRFToken([session]).then(token => {})
 
+Create a CSRF token.
+
 ### Session.verifyCSRFToken([session], token).then(valid => {})
 
-### const key = SessionMiddleware.store.getSessionKey(session_id)
+Returns a boolean of whether a CSRF token is valid.
 
-### const key = SessionMiddleware.store.getReferenceKey(field, value)
+### const Store = SessionMiddleware.store
 
-### SessionMiddleware.store.get(session_id, [fields]).then(session => {})
+The `Store` is the underlying redis logic of the session.
 
-### SessionMiddleware.store.set(session_id, values, [maxAge]).then(values => {})
+### const key = Store.getSessionKey(session_id)
 
-### SessionMiddleware.store.unset(session_id, fields, [maxAge]).then(() => {})
+### const key = Store.getReferenceKey(field, value)
 
-### SessionMiddleware.store.touch(session_id, [maxAge]).then(() => {})
+### Store.get(session_id, [fields]).then(session => {})
 
-### SessionMiddleware.store.delete(session_id).then(() => {})
+### Store.set(session_id, values, [maxAge]).then(values => {})
+
+### Store.unset(session_id, fields, [maxAge]).then(() => {})
+
+### Store.touch(session_id, [maxAge]).then(() => {})
+
+### Store.delete(session_id).then(() => {})
 
 [npm-image]: https://img.shields.io/npm/v/koa-redis-session-sets.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/koa-redis-session-sets
