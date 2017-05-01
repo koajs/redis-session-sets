@@ -18,12 +18,17 @@ Specifics:
 - Stores cross references as sets
 - Functional API
 
+## Koa v1
+
+For Koa version, take a look at redis-session-sets@<BRANCH/TAG> (CHANGEME)
+
 ## Example
 
 ```js
-const app = require('koa')()
+const Koa = require('koa')
 const client = require('ioredis').createClient()
 
+const app = new Koa()
 const Session = require('koa-redis-session-sets')(app, {
   client,
   references: {
@@ -33,19 +38,19 @@ const Session = require('koa-redis-session-sets')(app, {
 
 app.use(Session)
 
-app.use(function * (next) {
+app.use(async (ctx, next) => {
   // get the session
-  let session = yield this.session.get()
+  let session = await ctx.session.get()
 
   // update the session
-  yield this.session.set({
+  await ctx.session.set({
     user_id: 1
   })
 
   // update the session object with latest keys
-  session = yield this.session.get()
+  session = await ctx.session.get()
 
-  this.status = 204
+  ctx.status = 204
 })
 ```
 
@@ -56,15 +61,16 @@ Specifically, if this set is possibly large, you'd want to use `SSCAN`.
 ```js
 const key = Session.getReferenceKey('user_id', 1)
 
-client.smembers(key).then(session_ids => {
-  return Promise.all(session_ids.map(session_id => {
-    // deletes the session and removes the session from all the referenced sets
-    return Session.store.delete(session_id)
+try {
+  const session_ids = await client.smembers(key)
+  await Promise.all(session_ids.map(session_id => {
+      // deletes the session and removes the session from all the referenced sets
+      return Session.store.delete(session_id)
   }))
-}).catch(err => {
+} catch (err) {
   console.error(err.stack)
   process.exit(1)
-})
+}
 ```
 
 ## API
@@ -86,10 +92,6 @@ Options:
 Use the session middleware in your app.
 Note that this is a very simple function and middleware is not required.
 Look at the source code to understand how simple it is.
-
-### app.use(SessionMiddleware.v2)
-
-A Koa v2 version of the middleware.
 
 ### const Session = SessionMiddleware.createSession(context)
 
