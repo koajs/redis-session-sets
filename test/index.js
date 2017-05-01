@@ -14,7 +14,7 @@ before(() => client.flushall())
 
 describe('context.session', () => {
   describe('should get and set the session', () => {
-    const app = Koa()
+    const app = new Koa()
     app.keys = keys
     app.use(Session(app, {
       maxAge: '1 month',
@@ -24,28 +24,28 @@ describe('context.session', () => {
       },
       client,
     }))
-    app.use(function * () {
-      switch (this.method) {
+    app.use(async (ctx) => {
+      switch (ctx.method) {
         case 'POST': {
-          yield this.session.set({
+          await ctx.session.set({
             number: 1,
             string: 'string',
           })
-          this.status = 204
+          ctx.status = 204
           break
         }
         case 'GET': {
-          const session = yield this.session.get()
-          this.assert.equal(session.number, 1)
-          this.assert.equal(session.string, 'string')
+          const session = await ctx.session.get()
+          ctx.assert.equal(session.number, 1)
+          ctx.assert.equal(session.string, 'string')
 
-          const key = this.session.getKey()
-          const obj = yield client.hgetall(key)
-          this.assert(obj)
-          this.assert.equal(obj.number, 1)
-          this.assert.equal(obj.string, 'string')
+          const key = ctx.session.getKey()
+          const obj = await client.hgetall(key)
+          ctx.assert(obj)
+          ctx.assert.equal(obj.number, 1)
+          ctx.assert.equal(obj.string, 'string')
 
-          this.status = 204
+          ctx.status = 204
           break
         }
       }
@@ -66,34 +66,34 @@ describe('context.session', () => {
   })
 
   describe('should unset the session', () => {
-    const app = Koa()
+    const app = new Koa()
     app.keys = keys
     app.use(Session(app, {
       client,
     }))
-    app.use(function * () {
-      switch (this.method) {
+    app.use(async (ctx) => {
+      switch (ctx.method) {
         case 'POST': {
-          yield this.session.set({
+          await ctx.session.set({
             number: 1,
             string: 'string',
           })
-          this.status = 204
+          ctx.status = 204
           break
         }
         case 'DELETE': {
-          yield this.session.unset([
+          await ctx.session.unset([
             'number',
             'string',
           ])
-          this.status = 204
+          ctx.status = 204
           break
         }
         case 'GET': {
-          const session = yield this.session.get()
-          this.assert(!session.number)
-          this.assert(!session.string)
-          this.status = 204
+          const session = await ctx.session.get()
+          ctx.assert(!session.number)
+          ctx.assert(!session.string)
+          ctx.status = 204
           break
         }
       }
@@ -120,14 +120,14 @@ describe('context.session', () => {
   })
 
   describe('should update the session', () => {
-    const app = Koa()
+    const app = new Koa()
     app.keys = keys
     app.use(Session(app, {
       client,
     }))
-    app.use(function * () {
-      yield this.session.touch()
-      this.status = 204
+    app.use(async (ctx) => {
+      await ctx.session.touch()
+      ctx.status = 204
     })
     const agent = _request.agent(app.listen())
 
@@ -140,31 +140,31 @@ describe('context.session', () => {
   })
 
   describe('should delete the session', () => {
-    const app = Koa()
+    const app = new Koa()
     app.keys = keys
     app.use(Session(app, {
       client,
     }))
-    app.use(function * () {
-      switch (this.method) {
+    app.use(async (ctx) => {
+      switch (ctx.method) {
         case 'POST': {
-          yield this.session.set({
+          await ctx.session.set({
             number: 1,
             string: 'string',
           })
-          this.status = 204
+          ctx.status = 204
           break
         }
         case 'DELETE': {
-          yield this.session.delete()
-          this.status = 204
+          await ctx.session.delete()
+          ctx.status = 204
           break
         }
         case 'GET': {
-          const session = yield this.session.get()
-          this.assert(!session.number)
-          this.assert(!session.string)
-          this.status = 204
+          const session = await ctx.session.get()
+          ctx.assert(!session.number)
+          ctx.assert(!session.string)
+          ctx.status = 204
           break
         }
       }
@@ -192,15 +192,15 @@ describe('context.session', () => {
 
   describe('should handle CSRF tokens', () => {
     it('w/o getting the current session', done => {
-      const app = Koa()
+      const app = new Koa()
       app.keys = keys
       app.use(Session(app, {
         client,
       }))
-      app.use(function * () {
-        const token = yield this.session.createCSRFToken()
-        this.assert(yield this.session.verifyCSRFToken(token))
-        this.status = 204
+      app.use(async (ctx) => {
+        const token = await ctx.session.createCSRFToken()
+        ctx.assert(await ctx.session.verifyCSRFToken(token))
+        ctx.status = 204
       })
       const agent = _request.agent(app.listen())
 
@@ -210,16 +210,16 @@ describe('context.session', () => {
     })
 
     it('w/o getting the current session', done => {
-      const app = Koa()
+      const app = new Koa()
       app.keys = keys
       app.use(Session(app, {
         client,
       }))
-      app.use(function * () {
-        const session = yield this.session.get()
-        const token = yield this.session.createCSRFToken(session)
-        this.assert(yield this.session.verifyCSRFToken(session, token))
-        this.status = 204
+      app.use(async (ctx) => {
+        const session = await ctx.session.get()
+        const token = await ctx.session.createCSRFToken(session)
+        ctx.assert(await ctx.session.verifyCSRFToken(session, token))
+        ctx.status = 204
       })
       const agent = _request.agent(app.listen())
 
@@ -232,7 +232,7 @@ describe('context.session', () => {
 
 describe('session', () => {
   it('.getReferenceKey()', () => {
-    const app = Koa()
+    const app = new Koa()
     app.keys = keys
     const session = Session(app, {
       // same options as first test
