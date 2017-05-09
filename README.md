@@ -20,7 +20,7 @@ Specifics:
 
 ## Koa v1
 
-For Koa version, take a look at redis-session-sets@<BRANCH/TAG> (CHANGEME)
+For Koa version, use `koa-redis-session-sets@1`.
 
 ## Example
 
