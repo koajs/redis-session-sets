@@ -9,9 +9,8 @@
     "any-promise": "^1.1.0",
     "csrf": "^3.0.1",
     "debug": "^2.2.0",
-    "jest": "^20.0.0",
     "lodash": "^4.1.0",
-    "ms": "^0.7.1"
+    "ms": "^1.0.0"
   },
   "devDependencies": {
     "codecov": "^2.1.0",
@@ -20,11 +19,12 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-react": "^6.10.3",
+    "eslint-plugin-react": "^7.0.0",
     "eslint-plugin-standard": "^3.0.1",
-    "ioredis": "^1.14.0",
+    "jest": "^20.0.0",
+    "ioredis": "^2.5.0",
     "koa": "^2.2.0",
-    "supertest": "^1.2.0"
+    "supertest": "^3.0.0"
   },
   "scripts": {
     "lint": "eslint . --fix",
