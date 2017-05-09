@@ -9,11 +9,12 @@
     "any-promise": "^1.1.0",
     "csrf": "^3.0.1",
     "debug": "^2.2.0",
+    "jest": "^20.0.0",
     "lodash": "^4.1.0",
     "ms": "^0.7.1"
   },
   "devDependencies": {
-    "codecov": "^1.0.0",
+    "codecov": "^2.1.0",
     "eslint": "^3.19.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.2.0",
@@ -23,14 +24,11 @@
     "eslint-plugin-standard": "^3.0.1",
     "ioredis": "^1.14.0",
     "koa": "^2.2.0",
-    "mocha": "^2.0.0",
-    "nyc": "^5.0.0",
     "supertest": "^1.2.0"
   },
   "scripts": {
     "lint": "eslint . --fix",
-    "test": "mocha --bail",
-    "test-cov": "nyc --cache node_modules/mocha/bin/_mocha && nyc report --reporter=lcov"
+    "test": "jest --forceExit --coverage"
   },
   "keywords": [
     "koa",
@@ -43,5 +41,8 @@
   "files": [
     "lib"
   ],
-  "main": "lib"
+  "main": "lib",
+  "jest": {
+    "testEnvironment": "node"
+  }
 }

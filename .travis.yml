@@ -4,6 +4,6 @@ language: node_js
 sudo: false
 script:
   - npm run lint
-  - npm run test-cov
+  - npm run test
   - ./node_modules/.bin/codecov
 services: redis
