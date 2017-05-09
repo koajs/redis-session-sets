@@ -20,16 +20,16 @@ describe('context.session', () => {
       maxAge: '1 month',
       prefix: 'asdf',
       references: {
-        string: {},
+        string: {}
       },
-      client,
+      client
     }))
     app.use(async (ctx) => {
       switch (ctx.method) {
         case 'POST': {
           await ctx.session.set({
             number: 1,
-            string: 'string',
+            string: 'string'
           })
           ctx.status = 204
           break
@@ -69,14 +69,14 @@ describe('context.session', () => {
     const app = new Koa()
     app.keys = keys
     app.use(Session(app, {
-      client,
+      client
     }))
     app.use(async (ctx) => {
       switch (ctx.method) {
         case 'POST': {
           await ctx.session.set({
             number: 1,
-            string: 'string',
+            string: 'string'
           })
           ctx.status = 204
           break
@@ -84,7 +84,7 @@ describe('context.session', () => {
         case 'DELETE': {
           await ctx.session.unset([
             'number',
-            'string',
+            'string'
           ])
           ctx.status = 204
           break
@@ -123,7 +123,7 @@ describe('context.session', () => {
     const app = new Koa()
     app.keys = keys
     app.use(Session(app, {
-      client,
+      client
     }))
     app.use(async (ctx) => {
       await ctx.session.touch()
@@ -143,14 +143,14 @@ describe('context.session', () => {
     const app = new Koa()
     app.keys = keys
     app.use(Session(app, {
-      client,
+      client
     }))
     app.use(async (ctx) => {
       switch (ctx.method) {
         case 'POST': {
           await ctx.session.set({
             number: 1,
-            string: 'string',
+            string: 'string'
           })
           ctx.status = 204
           break
@@ -195,7 +195,7 @@ describe('context.session', () => {
       const app = new Koa()
       app.keys = keys
       app.use(Session(app, {
-        client,
+        client
       }))
       app.use(async (ctx) => {
         const token = await ctx.session.createCSRFToken()
@@ -213,7 +213,7 @@ describe('context.session', () => {
       const app = new Koa()
       app.keys = keys
       app.use(Session(app, {
-        client,
+        client
       }))
       app.use(async (ctx) => {
         const session = await ctx.session.get()
@@ -239,9 +239,9 @@ describe('session', () => {
       maxAge: '1 month',
       prefix: 'asdf',
       references: {
-        string: {},
+        string: {}
       },
-      client,
+      client
     })
     app.use(session)
 

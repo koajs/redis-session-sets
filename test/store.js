@@ -12,7 +12,7 @@ describe('Store', () => {
   const store = createStore({
     references: {
       user_id: true,
-      ip: true,
+      ip: true
     }
   })
   let id
@@ -82,6 +82,6 @@ describe('Store', () => {
 function createStore (options) {
   return new Store(Object.assign({}, {
     client,
-    namespace: Math.random().toString(36).slice(2),
+    namespace: Math.random().toString(36).slice(2)
   }, options || {}))
 }
