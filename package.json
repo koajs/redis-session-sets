@@ -9,7 +9,7 @@
     "csrf": "^3.0.1",
     "debug": "^2.2.0",
     "lodash": "^4.1.0",
-    "ms": "^1.0.0"
+    "ms": "^2.0.0"
   },
   "devDependencies": {
     "codecov": "^2.1.0",
