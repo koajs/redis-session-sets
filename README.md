@@ -1,6 +1,8 @@
 
 # redis-session-sets
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/koajs/redis-session-sets.svg)](https://greenkeeper.io/)
+
 [![NPM version][npm-image]][npm-url]
 [![Build status][travis-image]][travis-url]
 [![Test coverage][codecov-image]][codecov-url]
