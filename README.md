@@ -1,14 +1,13 @@
 
 # redis-session-sets
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/koajs/redis-session-sets.svg)](https://greenkeeper.io/)
-
 [![NPM version][npm-image]][npm-url]
 [![Build status][travis-image]][travis-url]
 [![Test coverage][codecov-image]][codecov-url]
 [![Dependency Status][david-image]][david-url]
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
+[![Greenkeeper badge](https://badges.greenkeeper.io/koajs/redis-session-sets.svg)](https://greenkeeper.io/)
 
 A redis session for Koa that creates sets for specific values.
 
