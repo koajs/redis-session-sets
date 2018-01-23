@@ -3,7 +3,7 @@ node_js:
 language: node_js
 sudo: false
 script:
-  - npm run lint
+  - npm run lint:ci
   - npm run test
-  - ./node_modules/.bin/codecov
+  - npx codecov
 services: redis

@@ -54,14 +54,14 @@ describe('context.session', () => {
 
     it('.session.set()', done => {
       agent
-      .post('/')
-      .expect(204, done)
+        .post('/')
+        .expect(204, done)
     })
 
     it('.session.get()', done => {
       agent
-      .get('/')
-      .expect(204, done)
+        .get('/')
+        .expect(204, done)
     })
   })
 
@@ -102,20 +102,20 @@ describe('context.session', () => {
 
     it('.session.set()', done => {
       agent
-      .post('/')
-      .expect(204, done)
+        .post('/')
+        .expect(204, done)
     })
 
     it('.session.unset()', done => {
       agent
-      .delete('/')
-      .expect(204, done)
+        .delete('/')
+        .expect(204, done)
     })
 
     it('.session.get()', done => {
       agent
-      .get('/')
-      .expect(204, done)
+        .get('/')
+        .expect(204, done)
     })
   })
 
@@ -133,9 +133,9 @@ describe('context.session', () => {
 
     it('.session.touch()', done => {
       agent
-      .get('/')
-      .expect('Set-Cookie', /.*/)
-      .expect(204, done)
+        .get('/')
+        .expect('Set-Cookie', /.*/)
+        .expect(204, done)
     })
   })
 
@@ -173,20 +173,20 @@ describe('context.session', () => {
 
     it('.session.set()', done => {
       agent
-      .post('/')
-      .expect(204, done)
+        .post('/')
+        .expect(204, done)
     })
 
     it('.session.delete()', done => {
       agent
-      .delete('/')
-      .expect(204, done)
+        .delete('/')
+        .expect(204, done)
     })
 
     it('.session.get()', done => {
       agent
-      .get('/')
-      .expect(204, done)
+        .get('/')
+        .expect(204, done)
     })
   })
 
@@ -205,8 +205,8 @@ describe('context.session', () => {
       const agent = _request.agent(app.listen())
 
       agent
-      .get('/')
-      .expect(204, done)
+        .get('/')
+        .expect(204, done)
     })
 
     it('w/o getting the current session', done => {
@@ -224,8 +224,8 @@ describe('context.session', () => {
       const agent = _request.agent(app.listen())
 
       agent
-      .get('/')
-      .expect(204, done)
+        .get('/')
+        .expect(204, done)
     })
   })
 })
