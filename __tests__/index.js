@@ -17,7 +17,9 @@ describe('context.session', () => {
     const app = new Koa()
     app.keys = keys
     app.use(Session(app, {
-      maxAge: '1 month',
+      maxAge: '28 days',
+      httpOnly: false,
+      signed: false,
       prefix: 'asdf',
       references: {
         string: {}
@@ -69,6 +71,8 @@ describe('context.session', () => {
     const app = new Koa()
     app.keys = keys
     app.use(Session(app, {
+      httpOnly: false,
+      signed: false,
       client
     }))
     app.use(async (ctx) => {
@@ -123,6 +127,8 @@ describe('context.session', () => {
     const app = new Koa()
     app.keys = keys
     app.use(Session(app, {
+      httpOnly: false,
+      signed: false,
       client
     }))
     app.use(async (ctx) => {
@@ -143,6 +149,8 @@ describe('context.session', () => {
     const app = new Koa()
     app.keys = keys
     app.use(Session(app, {
+      httpOnly: false,
+      signed: false,
       client
     }))
     app.use(async (ctx) => {
@@ -195,6 +203,8 @@ describe('context.session', () => {
       const app = new Koa()
       app.keys = keys
       app.use(Session(app, {
+        httpOnly: false,
+        signed: false,
         client
       }))
       app.use(async (ctx) => {
@@ -213,6 +223,8 @@ describe('context.session', () => {
       const app = new Koa()
       app.keys = keys
       app.use(Session(app, {
+        httpOnly: false,
+        signed: false,
         client
       }))
       app.use(async (ctx) => {
@@ -236,7 +248,9 @@ describe('session', () => {
     app.keys = keys
     const session = Session(app, {
       // same options as first test
-      maxAge: '1 month',
+      maxAge: '28 days',
+      httpOnly: false,
+      signed: false,
       prefix: 'asdf',
       references: {
         string: {}
