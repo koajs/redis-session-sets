@@ -23,7 +23,7 @@
     "ioredis": "^3.2.2",
     "jest": "^22.1.4",
     "koa": "^2.2.0",
-    "supertest": "^3.0.0"
+    "supertest": "^4.0.0"
   },
   "scripts": {
     "lint": "eslint . --fix",
