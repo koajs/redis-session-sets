@@ -8,7 +8,8 @@
   "dependencies": {
     "csrf": "^3.0.1",
     "lodash": "^4.1.0",
-    "ms": "^2.0.0"
+    "ms": "^2.0.0",
+    "snyk": "^1.192.3"
   },
   "devDependencies": {
     "codecov": "^3.0.0",
@@ -28,7 +29,9 @@
   "scripts": {
     "lint": "eslint . --fix",
     "lint:ci": "eslint .",
-    "test": "jest --forceExit --coverage"
+    "test": "jest --forceExit --coverage",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "keywords": [
     "koa",
@@ -44,5 +47,6 @@
   "main": "lib",
   "jest": {
     "testEnvironment": "node"
-  }
+  },
+  "snyk": true
 }
