@@ -27,7 +27,7 @@
   },
   "scripts": {
     "eslint": "eslint . --ignore-path .gitignore",
-    "test": "jest"
+    "test": "jest --forceExit"
   },
   "keywords": [
     "koa",
