@@ -4,7 +4,7 @@ node_js:
 language: node_js
 sudo: false
 script:
-  - npm run lint:ci
+  - npm run eslint
   - npm run test
   - npx codecov
 services: redis

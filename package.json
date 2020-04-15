@@ -26,9 +26,8 @@
     "supertest": "^3.0.0"
   },
   "scripts": {
-    "lint": "eslint . --fix",
-    "lint:ci": "eslint .",
-    "test": "jest --forceExit --coverage"
+    "eslint": "eslint . --ignore-path .gitignore",
+    "test": "jest"
   },
   "keywords": [
     "koa",
