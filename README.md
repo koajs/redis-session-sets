@@ -2,6 +2,7 @@
 # redis-session-sets
 
 [![NPM version][npm-image]][npm-url]
+[![Node.js CI](https://github.com/koajs/redis-session-sets/workflows/Node.js%20CI/badge.svg?branch=master)](https://github.com/koajs/redis-session-sets/actions?query=workflow%3A%22Node.js+CI%22)
 [![Test coverage][codecov-image]][codecov-url]
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
