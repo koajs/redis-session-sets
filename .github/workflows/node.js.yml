@@ -7,6 +7,13 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      redis:
+        image: redis:latest
+        ports:
+        - 6379:6379
+        options: --entrypoint redis-server
+
     strategy:
       matrix:
         node-version: [10.x, 12.x]
