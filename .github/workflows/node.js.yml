@@ -1,0 +1,33 @@
+name: Node.js CI
+
+on: push
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis:latest
+        ports:
+        - 6379:6379
+        options: --entrypoint redis-server
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+
+    env:
+      CI: true
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run eslint
+    - run: npm run test -- --coverage
+    - run: npx codecov

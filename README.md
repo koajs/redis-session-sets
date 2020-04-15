@@ -2,10 +2,8 @@
 # redis-session-sets
 
 [![NPM version][npm-image]][npm-url]
-[![Build status][travis-image]][travis-url]
+[![Node.js CI](https://github.com/koajs/redis-session-sets/workflows/Node.js%20CI/badge.svg?branch=master)](https://github.com/koajs/redis-session-sets/actions?query=workflow%3A%22Node.js+CI%22)
 [![Test coverage][codecov-image]][codecov-url]
-[![Greenkeeper badge](https://badges.greenkeeper.io/koajs/redis-session-sets.svg)](https://greenkeeper.io/)
-[![Dependency Status][david-image]][david-url]
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
 
@@ -160,12 +158,8 @@ The `Store` is the underlying redis logic of the session.
 
 [npm-image]: https://img.shields.io/npm/v/koa-redis-session-sets.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/koa-redis-session-sets
-[travis-image]: https://img.shields.io/travis/koajs/redis-session-sets/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/koajs/redis-session-sets
 [codecov-image]: https://img.shields.io/codecov/c/github/koajs/redis-session-sets/master.svg?style=flat-square
 [codecov-url]: https://codecov.io/github/koajs/redis-session-sets
-[david-image]: http://img.shields.io/david/koajs/redis-session-sets.svg?style=flat-square
-[david-url]: https://david-dm.org/koajs/redis-session-sets
 [license-image]: http://img.shields.io/npm/l/koa-redis-session-sets.svg?style=flat-square
 [license-url]: LICENSE
 [downloads-image]: http://img.shields.io/npm/dm/koa-redis-session-sets.svg?style=flat-square

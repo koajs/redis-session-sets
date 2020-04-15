@@ -12,23 +12,22 @@
   },
   "devDependencies": {
     "codecov": "^3.0.0",
-    "debug": "^3.1.0",
-    "eslint": "^4.16.0",
-    "eslint-config-standard": "^11.0.0",
+    "debug": "^4.1.1",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-node": "^6.0.0",
-    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.0.0",
-    "eslint-plugin-standard": "^3.0.1",
-    "ioredis": "^3.2.2",
-    "jest": "^22.1.4",
+    "eslint-plugin-standard": "^4.0.1",
+    "ioredis": "^4.16.2",
+    "jest": "^25.3.0",
     "koa": "^2.2.0",
-    "supertest": "^3.0.0"
+    "supertest": "^4.0.2"
   },
   "scripts": {
-    "lint": "eslint . --fix",
-    "lint:ci": "eslint .",
-    "test": "jest --forceExit --coverage"
+    "eslint": "eslint . --ignore-path .gitignore",
+    "test": "jest --forceExit"
   },
   "keywords": [
     "koa",
