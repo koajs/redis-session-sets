@@ -23,7 +23,7 @@
     "ioredis": "^4.16.2",
     "jest": "^27.0.6",
     "koa": "^2.2.0",
-    "supertest": "^4.0.2"
+    "supertest": "^6.1.6"
   },
   "scripts": {
     "eslint": "eslint . --ignore-path .gitignore",
