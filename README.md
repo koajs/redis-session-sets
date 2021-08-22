@@ -10,16 +10,13 @@
 A redis session for Koa that creates sets for specific values.
 
 Use-case: you want to know all the sessions related to a user so that if the user resets his/her password, you destroy all the sessions.
+NOTE: for expiring sessions, this is not optimal. However, you may still use this library as a redis hash-based solution without cross references.
 
 Specifics:
 
 - Stores sessions as hash sets
 - Stores cross references as sets
 - Functional API
-
-## Koa v1
-
-For Koa version, use `koa-redis-session-sets@1`.
 
 ## Example
 
@@ -71,6 +68,10 @@ try {
   process.exit(1)
 }
 ```
+
+## Maintainers
+
+- Lead: @jonathanong [@jongleberry](https://twitter.com/jongleberry)
 
 ## API
 
