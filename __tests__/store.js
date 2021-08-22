@@ -8,6 +8,8 @@ const Store = require('../lib/store')
 
 const client = redis.createClient()
 
+afterAll(() => client.quit())
+
 describe('Store', () => {
   const store = createStore({
     references: {

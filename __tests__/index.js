@@ -11,6 +11,7 @@ const client = redis.createClient()
 const keys = ['asdf', '1234']
 
 beforeAll(() => client.flushall())
+afterAll(() => client.quit())
 
 describe('context.session', () => {
   describe('should get and set the session', () => {
