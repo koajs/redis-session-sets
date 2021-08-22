@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "codecov": "^3.8.3",
-    "debug": "^4.1.1",
+    "debug": "^4.3.2",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.2.0",
