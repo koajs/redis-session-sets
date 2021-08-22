@@ -9,194 +9,225 @@ const Session = require('..')
 
 const client = redis.createClient()
 const keys = ['asdf', '1234']
+let server
+let agent
 
 beforeAll(() => client.flushall())
 afterAll(() => client.quit())
 
 describe('context.session', () => {
   describe('should get and set the session', () => {
-    const app = new Koa()
-    app.keys = keys
-    app.use(Session(app, {
-      maxAge: '28 days',
-      signed: false,
-      prefix: 'asdf',
-      references: {
-        string: {}
-      },
-      client
-    }))
-    app.use(async (ctx) => {
-      switch (ctx.method) {
-        case 'POST': {
-          await ctx.session.set({
-            number: 1,
-            string: 'string'
-          })
-          ctx.status = 204
-          break
-        }
-        case 'GET': {
-          const session = await ctx.session.get()
-          ctx.assert.equal(session.number, 1)
-          ctx.assert.equal(session.string, 'string')
+    beforeAll(() => {
+      const app = new Koa()
+      app.keys = keys
 
-          const key = ctx.session.getKey()
-          const obj = await client.hgetall(key)
-          ctx.assert(obj)
-          ctx.assert.equal(obj.number, 1)
-          ctx.assert.equal(obj.string, 'string')
+      app.use(Session(app, {
+        maxAge: '28 days',
+        signed: false,
+        prefix: 'asdf',
+        references: {
+          string: {}
+        },
+        client
+      }))
 
-          ctx.status = 204
-          break
+      app.use(async (ctx) => {
+        switch (ctx.method) {
+          case 'POST': {
+            await ctx.session.set({
+              number: 1,
+              string: 'string'
+            })
+            ctx.status = 204
+            break
+          }
+          case 'GET': {
+            const session = await ctx.session.get()
+            ctx.assert.equal(session.number, 1)
+            ctx.assert.equal(session.string, 'string')
+
+            const key = ctx.session.getKey()
+            const obj = await client.hgetall(key)
+            ctx.assert(obj)
+            ctx.assert.equal(obj.number, 1)
+            ctx.assert.equal(obj.string, 'string')
+
+            ctx.status = 204
+            break
+          }
         }
-      }
+      })
+
+      server = app.listen()
+      agent = _request.agent(server)
     })
-    const agent = _request.agent(app.listen())
 
-    it('.session.set()', done => {
-      agent
+    afterAll(() => server.close())
+
+    it('.session.set()', () => {
+      return agent
         .post('/')
-        .expect(204, done)
+        .expect(204)
     })
 
-    it('.session.get()', done => {
-      agent
+    it('.session.get()', () => {
+      return agent
         .get('/')
-        .expect(204, done)
+        .expect(204)
     })
   })
 
   describe('should unset the session', () => {
-    const app = new Koa()
-    app.keys = keys
-    app.use(Session(app, {
-      signed: false,
-      client
-    }))
-    app.use(async (ctx) => {
-      switch (ctx.method) {
-        case 'POST': {
-          await ctx.session.set({
-            number: 1,
-            string: 'string'
-          })
-          ctx.status = 204
-          break
-        }
-        case 'DELETE': {
-          await ctx.session.unset([
-            'number',
-            'string'
-          ])
-          ctx.status = 204
-          break
-        }
-        case 'GET': {
-          const session = await ctx.session.get()
-          ctx.assert(!session.number)
-          ctx.assert(!session.string)
-          ctx.status = 204
-          break
-        }
-      }
-    })
-    const agent = _request.agent(app.listen())
+    beforeAll(() => {
+      const app = new Koa()
+      app.keys = keys
 
-    it('.session.set()', done => {
-      agent
+      app.use(Session(app, {
+        signed: false,
+        client
+      }))
+
+      app.use(async (ctx) => {
+        switch (ctx.method) {
+          case 'POST': {
+            await ctx.session.set({
+              number: 1,
+              string: 'string'
+            })
+            ctx.status = 204
+            break
+          }
+          case 'DELETE': {
+            await ctx.session.unset([
+              'number',
+              'string'
+            ])
+            ctx.status = 204
+            break
+          }
+          case 'GET': {
+            const session = await ctx.session.get()
+            ctx.assert(!session.number)
+            ctx.assert(!session.string)
+            ctx.status = 204
+            break
+          }
+        }
+      })
+
+      server = app.listen()
+      agent = _request.agent(server)
+    })
+
+    afterAll(() => server.close())
+
+    it('.session.set()', () => {
+      return agent
         .post('/')
-        .expect(204, done)
+        .expect(204)
     })
 
-    it('.session.unset()', done => {
-      agent
+    it('.session.unset()', () => {
+      return agent
         .delete('/')
-        .expect(204, done)
+        .expect(204)
     })
 
-    it('.session.get()', done => {
-      agent
+    it('.session.get()', () => {
+      return agent
         .get('/')
-        .expect(204, done)
+        .expect(204)
     })
   })
 
   describe('should update the session', () => {
-    const app = new Koa()
-    app.keys = keys
-    app.use(Session(app, {
-      signed: false,
-      client
-    }))
-    app.use(async (ctx) => {
-      await ctx.session.touch()
-      ctx.status = 204
+    beforeAll(() => {
+      const app = new Koa()
+      app.keys = keys
+      app.use(Session(app, {
+        signed: false,
+        client
+      }))
+      app.use(async (ctx) => {
+        await ctx.session.touch()
+        ctx.status = 204
+      })
+      server = app.listen()
+      agent = _request.agent(server)
     })
-    const agent = _request.agent(app.listen())
 
-    it('.session.touch()', done => {
-      agent
+    afterAll(() => server.close())
+
+    it('.session.touch()', () => {
+      return agent
         .get('/')
         .expect('Set-Cookie', /.*/)
-        .expect(204, done)
+        .expect(204)
     })
   })
 
   describe('should delete the session', () => {
-    const app = new Koa()
-    app.keys = keys
-    app.use(Session(app, {
-      signed: false,
-      client
-    }))
-    app.use(async (ctx) => {
-      switch (ctx.method) {
-        case 'POST': {
-          await ctx.session.set({
-            number: 1,
-            string: 'string'
-          })
-          ctx.status = 204
-          break
+    beforeAll(() => {
+      const app = new Koa()
+      app.keys = keys
+      app.use(Session(app, {
+        signed: false,
+        client
+      }))
+      app.use(async (ctx) => {
+        switch (ctx.method) {
+          case 'POST': {
+            await ctx.session.set({
+              number: 1,
+              string: 'string'
+            })
+            ctx.status = 204
+            break
+          }
+          case 'DELETE': {
+            await ctx.session.delete()
+            ctx.status = 204
+            break
+          }
+          case 'GET': {
+            const session = await ctx.session.get()
+            ctx.assert(!session.number)
+            ctx.assert(!session.string)
+            ctx.status = 204
+            break
+          }
         }
-        case 'DELETE': {
-          await ctx.session.delete()
-          ctx.status = 204
-          break
-        }
-        case 'GET': {
-          const session = await ctx.session.get()
-          ctx.assert(!session.number)
-          ctx.assert(!session.string)
-          ctx.status = 204
-          break
-        }
-      }
-    })
-    const agent = _request.agent(app.listen())
+      })
 
-    it('.session.set()', done => {
-      agent
+      server = app.listen()
+      agent = _request.agent(server)
+    })
+
+    afterAll(() => server.close())
+
+    it('.session.set()', () => {
+      return agent
         .post('/')
-        .expect(204, done)
+        .expect(204)
     })
 
-    it('.session.delete()', done => {
-      agent
+    it('.session.delete()', () => {
+      return agent
         .delete('/')
-        .expect(204, done)
+        .expect(204)
     })
 
-    it('.session.get()', done => {
-      agent
+    it('.session.get()', () => {
+      return agent
         .get('/')
-        .expect(204, done)
+        .expect(204)
     })
   })
 
   describe('should handle CSRF tokens', () => {
-    it('w/o getting the current session', done => {
+    afterEach(() => server.close())
+
+    it('w/o getting the current session', () => {
       const app = new Koa()
       app.keys = keys
       app.use(Session(app, {
@@ -208,14 +239,16 @@ describe('context.session', () => {
         ctx.assert(await ctx.session.verifyCSRFToken(token))
         ctx.status = 204
       })
-      const agent = _request.agent(app.listen())
 
-      agent
+      server = app.listen()
+      agent = _request.agent(server)
+
+      return agent
         .get('/')
-        .expect(204, done)
+        .expect(204)
     })
 
-    it('w/o getting the current session', done => {
+    it('w/o getting the current session', () => {
       const app = new Koa()
       app.keys = keys
       app.use(Session(app, {
@@ -228,11 +261,13 @@ describe('context.session', () => {
         ctx.assert(await ctx.session.verifyCSRFToken(session, token))
         ctx.status = 204
       })
-      const agent = _request.agent(app.listen())
 
-      agent
+      server = app.listen()
+      agent = _request.agent(server)
+
+      return agent
         .get('/')
-        .expect(204, done)
+        .expect(204)
     })
   })
 })
