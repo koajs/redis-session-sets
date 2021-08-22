@@ -28,7 +28,7 @@ const app = new Koa()
 const Session = require('koa-redis-session-sets')(app, {
   client,
   references: {
-    user_id: {} // options object for future use, maytbe
+    user_id: {}
   }
 })
 
@@ -43,7 +43,7 @@ app.use(async (ctx, next) => {
     user_id: 1
   })
 
-  // update the session object with latest keys
+  // get the session object with latest keys
   session = await ctx.session.get()
 
   ctx.status = 204
