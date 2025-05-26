@@ -7,6 +7,8 @@
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
 
+> NOTE: MAINTAINER WANTED
+> 
 A redis session for Koa that creates sets for specific values.
 
 Use-case: you want to know all the sessions related to a user so that if the user resets his/her password, you destroy all the sessions.
